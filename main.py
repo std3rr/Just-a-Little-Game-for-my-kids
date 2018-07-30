@@ -57,7 +57,7 @@ window.last_target_time = 0
 
 def draw():
     """
-    Clears screen and then renders our list of ball objects
+    Clears screen and renders our objects
     :return:
     """
     window.clear()
@@ -149,7 +149,7 @@ def on_mouse_release(x, y, button, modifiers):
 
 def main():
     """
-    This is the main methos. This contains an embedded method
+    This is the main method. This contains an embedded method.
     :return:
     """
 
