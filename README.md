@@ -1,5 +1,5 @@
 # Just-a-Little-Game-for-my-kids
-A little game written a weekend exploring pyglet game development.<br><br>
+A little game written a weekend exploring pyglet game development in python.<br><br>
 ![screencap](screen_cap.gif)
 
 I use python3 for my projects.<br>
