@@ -149,7 +149,7 @@ def update(time):
                             except:
                                 None
                             score = int(window.score.text)
-                            score += target.speed
+                            score += target.speed+1
                             window.score.text=f'{score}'
 
 
