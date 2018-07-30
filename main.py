@@ -22,7 +22,7 @@ screen = display.get_default_screen()
 window = pyglet.window.Window(fullscreen=True,
                                 height=screen.height,
                               width=screen.width)
-pyglet.resource.path = [config.resource_path]
+pyglet.resource.path = ['assets']
 pyglet.resource.reindex()
 window.backgrounds = [
     pyglet.resource.image('sannabadet.jpg')
