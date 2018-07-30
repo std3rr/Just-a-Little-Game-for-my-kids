@@ -13,7 +13,7 @@ In anaconda go to Environments and chose Open Terminal from the little play butt
 ```
 conda install -c darthhack pyglet
 ```
-You can edit the files any way you like or through some Python IDE.
+You can edit the files any way you like or through some Python IDE.<br>
 I personaly used **Atom** for this project:<br>
 https://ide.atom.io/
 
