@@ -6,6 +6,7 @@ from system.component import Component
 from entities.shot import Shot
 from entities.target import Target
 from random import randint
+from random import choice
 
 
 
@@ -49,9 +50,16 @@ window.play_again_text = pyglet.text.Label(f'tryck höger musknapp för att spel
     font_size=12,
     x=window.width/2, y=window.height/2 + 40,
     anchor_x='center', anchor_y='center')
+window.level_text = pyglet.text.Label(f'LEVEL 1',
+    font_name='Time New Roman',
+    font_size=46,
+    x=200, y=window.height - 100,
+    anchor_x='center', anchor_y='center')
 
 window.game_state = 'play'
 window.last_target_time = 0
+window.last_level_time = int(t.time())
+window.level = 1
 #############################################################
 
 
@@ -64,22 +72,25 @@ def draw():
     if window.game_state == 'play':
         window.backgrounds[0].blit(0,0)
 
-        # draw all shots fired
-        for idx, target in enumerate(target_objects):
+        map(lambda idx,i: i.set_id(idx),enumerate(target_objects))
+        # draw all targets
+        for target in sorted(target_objects, key=lambda obj: obj.z):
             if isinstance(target, Component):
                 if target.draw() == -1:
-                    del target_objects[idx]
+                    del target_objects[target.id]
 
-        # draw all targets
+        # draw all shots fired
         for idx, shot in enumerate(shot_objects):
             if isinstance(shot, Component):
                 if shot.draw() == -1:
                     del shot_objects[idx]
+
     elif window.game_state == 'end':
         window.center_text.draw()
         window.play_again_text.draw()
 
     window.score.draw()
+    window.level_text.draw()
 
 
 
@@ -90,12 +101,26 @@ def update(time):
     :return:
     """
 
-    if len(target_objects) < 10:
+    if int(t.time()) - window.last_level_time > 15:
+        window.level += 1
+        window.level_text.text = f'LEVEL {window.level}'
+        window.last_level_time = int(t.time())
+
+    if len(target_objects) < 15:
         if int(t.time()) - window.last_target_time > 1:
-            for i in range(randint(1,3)):
-                x = randint(50, config.window_width - 50)
-                y = randint(50, config.window_height - 50)
-                target_objects.append(Target(name='andreas', x=x, y=y, speed=randint(0,6), state='moving'))
+            for i in range((randint(1,window.level)%5)):
+                if randint(0,10) < 4+window.level:
+                    x = randint(50, config.window_width - 50)
+                    y = randint(50, config.window_height - 50)
+                    z = choice( [.50, .75, 1.0, 1.25, 1.50, 1.75, 2.0] )
+                    print(f'z: {z}')
+                    target_objects.append(Target(
+                        name='andreas',
+                        x=x, y=y,
+                        speed=randint(0,window.level),
+                        state='moving',
+                        z=z
+                    ))
             window.last_target_time = int(t.time())
     elif window.game_state == 'play':
         window.game_state = 'end'
@@ -139,7 +164,7 @@ def on_mouse_release(x, y, button, modifiers):
     """
     print('x: {}, y {}, button {}, modifiers {}'.format(x, y, button, modifiers))
     if window.game_state == 'play':
-        name = 'miranda' if len(shot_objects) % 2 == 0 else 'emil'
+        name = 'miranda' if randint(0,1) == 0 else 'emil'
         shot_objects.append(Shot(name=name, x=x, y=y, speed=randint(-2,3)))
     elif window.game_state == 'end' and button == 4:
         window.score.text=f'0'
