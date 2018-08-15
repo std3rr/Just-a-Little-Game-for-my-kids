@@ -3,7 +3,7 @@ A little game written a weekend exploring pyglet game development in python.<br>
 ![screencap](screen_cap.gif)
 
 I use python3 for my projects.<br>
-One play around with this is download and install **anaconda** from:<br>
+One way to play around with this is download and install **anaconda** from:<br>
 https://www.anaconda.com/download/
 <br><br>
 
